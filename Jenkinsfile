@@ -8,12 +8,12 @@ pipeline{
         stage('global stage'){
             agent{
                 docker{
-                    image 'mcr.microsoft.com/playwright:v1.54.0-noble'
+                    image 'mcr.microsoft.com/playwright:v1.54.0-noble'//on la recuperer depuis dockerhub
                 }
             }
             stages{
                 stage('install deps'){
-            steps{
+                     steps{
                 sh 'npm ci'
             }
         }
@@ -47,8 +47,8 @@ pipeline{
             //junit 'playwright-report/junit/results.xml'
             script{
                 if(params.ALLURE){
-                    archiveArtifacts 'allure-results/**'
                     unstash 'allure-results'
+                    archiveArtifacts 'allure-results/*'
                     allure includeProperties:
                      false,
                      jdk: '',
